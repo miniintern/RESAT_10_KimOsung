@@ -1,1 +1,6 @@
-
+![RESAT FE_10th_Review_KimOsung_1](https://github.com/miniintern/RESAT_10_KimOsung/assets/144213890/78518593-2f8f-46d6-9e49-8bc1c61887f0)
+![RESAT FE_10th_Review_KimOsung_2](https://github.com/miniintern/RESAT_10_KimOsung/assets/144213890/fe0fcd63-c24c-4dc0-903e-0fea2e645d92)
+![RESAT FE_10th_Review_KimOsung_3](https://github.com/miniintern/RESAT_10_KimOsung/assets/144213890/85f36e3d-ecee-434d-96d9-4501bdfee685)
+![RESAT FE_10th_Review_KimOsung_4](https://github.com/miniintern/RESAT_10_KimOsung/assets/144213890/5948c499-7f6e-489b-a29e-65a578d39876)
+![RESAT FE_10th_Review_KimOsung_5](https://github.com/miniintern/RESAT_10_KimOsung/assets/144213890/1fcde44b-058e-42b1-a7f1-5dfddf84a08f)
+![RESAT FE_10th_Review_KimOsung_6](https://github.com/miniintern/RESAT_10_KimOsung/assets/144213890/ee4d85c7-a945-4bf2-9362-2053d83580cd)
