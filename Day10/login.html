@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log In</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f4f9;
+      }
+
+      .outline {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .intro,
+      .input {
+        width: 70%;
+        max-height: 500px;
+        margin: 10px 0;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        background: white;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+
+      input {
+        margin: 10px 0;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        padding: 10px 15px;
+        font-size: 16px;
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #004494;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="outline">
+      <div class="intro">
+        <h1>로그인 해주세요!🤗🤗🤗</h1>
+      </div>
+      <div class="input">
+        <form id="loginForm" action="logined.html" method="post">
+          <label for="id">ID:</label>
+          <input type="text" id="id" name="id" required />
+
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required />
+
+          <button type="submit">입력</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      let userInfo = {
+        1: { id: "1234", password: "1234" },
+      };
+
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent page reload
+
+          const username = document.getElementById("id").value;
+          const password = document.getElementById("password").value;
+
+          let loggedIn = false;
+
+          for (const key in userInfo) {
+            if (
+              userInfo[key].id === username &&
+              userInfo[key].password === password
+            ) {
+              loggedIn = true;
+              break;
+            }
+          }
+
+          if (loggedIn) {
+            window.location.href = "logined.html";
+          } else {
+            alert("ID 또는 PASSWORD가 틀렸습니다");
+          }
+        });
+    </script>
+  </body>
+</html>

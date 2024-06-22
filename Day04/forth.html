@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>달력</title>
+    <link rel="stylesheet" href="./forth.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="nav">
+        <button id="prevMonth" class="icon">&lt;</button>
+        <p id="monthYearDisplay" class="current-date"></p>
+        <button id="nextMonth" class="icon">&gt;</button>
+      </div>
+      <div class="calendar" id="calendar"></div>
+    </div>
+
+    <div id="noteModal" class="modal">
+      <textarea id="noteInput" placeholder="메모를 입력하세요..."></textarea>
+      <div class="buttons">
+        <button id="cancelNote" class="cancel">취소</button>
+        <button id="deleteNote" class="delete">삭제</button>
+        <button id="saveNote" class="save">메모 저장</button>
+      </div>
+    </div>
+
+    <script>
+      const monthYearDisplay = document.getElementById("monthYearDisplay");
+      const prevMonthButton = document.getElementById("prevMonth");
+      const nextMonthButton = document.getElementById("nextMonth");
+      const calendar = document.getElementById("calendar");
+      const noteModal = document.getElementById("noteModal");
+      const noteInput = document.getElementById("noteInput");
+      const saveNoteButton = document.getElementById("saveNote");
+
+      let currentDate = new Date();
+      let currentMonth = currentDate.getMonth();
+      let currentYear = currentDate.getFullYear();
+
+      renderCalendar(currentMonth, currentYear);
+      loadSavedNotes();
+
+      prevMonthButton.addEventListener("click", () => {
+        if (currentMonth === 0) {
+          currentMonth = 11;
+          currentYear--;
+        } else {
+          currentMonth--;
+        }
+        renderCalendar(currentMonth, currentYear);
+      });
+
+      nextMonthButton.addEventListener("click", () => {
+        if (currentMonth === 11) {
+          currentMonth = 0;
+          currentYear++;
+        } else {
+          currentMonth++;
+        }
+        renderCalendar(currentMonth, currentYear);
+      });
+
+      function renderCalendar(month, year) {
+        calendar.innerHTML = "";
+        monthYearDisplay.textContent = `${getMonthName(month)} ${year}`;
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        for (let i = 1; i <= daysInMonth; i++) {
+          const dayElement = document.createElement("div");
+          dayElement.classList.add("day");
+          dayElement.textContent = i;
+          dayElement.dataset.date = new Date(year, month, i).toISOString();
+
+          const noteForDate = getNoteForDate(new Date(year, month, i));
+          if (noteForDate) {
+            dayElement.classList.add("with-note");
+          }
+
+          dayElement.addEventListener("click", () => {
+            openNoteModal(dayElement, month, year);
+          });
+
+          calendar.appendChild(dayElement);
+        }
+      }
+
+      function openNoteModal(dayElement, month, year) {
+        const selectedDay = parseInt(dayElement.textContent);
+        const selectedDate = new Date(year, month, selectedDay);
+        noteModal.dataset.date = selectedDate.toISOString();
+        noteModal.style.display = "block";
+        noteInput.value = getNoteForDate(selectedDate);
+        saveNoteButton.onclick = () => {
+          saveNoteForDate(selectedDate, noteInput.value);
+          noteModal.style.display = "none";
+          if (!noteInput.value.trim()) {
+            dayElement.innerHTML = selectedDay;
+          } else {
+            dayElement.innerHTML = `${selectedDay}<span class='note-indicator'></span>`;
+          }
+        };
+      }
+
+      function getNoteForDate(date) {
+        const savedNotes = JSON.parse(localStorage.getItem("notes")) || {};
+        return savedNotes[date.toISOString()] || "";
+      }
+
+      function saveNoteForDate(date, note) {
+        const savedNotes = JSON.parse(localStorage.getItem("notes")) || {};
+        savedNotes[date.toISOString()] = note;
+        localStorage.setItem("notes", JSON.stringify(savedNotes));
+      }
+
+      function loadSavedNotes() {
+        const savedNotes = JSON.parse(localStorage.getItem("notes")) || {};
+        const days = document.querySelectorAll(".day");
+        days.forEach((dayElement) => {
+          const dateKey = dayElement.dataset.date;
+          if (dateKey && savedNotes[dateKey]) {
+            dayElement.innerHTML = `${dayElement.textContent}<span class='note-indicator'></span>`;
+          }
+        });
+      }
+
+      document.getElementById("cancelNote").addEventListener("click", () => {
+        noteModal.style.display = "none";
+      });
+
+      document.getElementById("deleteNote").addEventListener("click", () => {
+        const selectedDate = new Date(noteModal.dataset.date);
+        deleteNoteForDate(selectedDate);
+        const dayElement = document.querySelector(
+          `.day[data-date="${selectedDate.toISOString()}"]`
+        );
+        if (dayElement) {
+          dayElement.innerHTML = dayElement.textContent;
+          dayElement.classList.remove("with-note");
+        }
+        noteInput.value = "";
+        noteModal.style.display = "none";
+      });
+
+      function deleteNoteForDate(date) {
+        const savedNotes = JSON.parse(localStorage.getItem("notes")) || {};
+        delete savedNotes[date.toISOString()];
+        localStorage.setItem("notes", JSON.stringify(savedNotes));
+      }
+
+      function getMonthName(monthIndex) {
+        const months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+        return months[monthIndex];
+      }
+    </script>
+  </body>
+</html>

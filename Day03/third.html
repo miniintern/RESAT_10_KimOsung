@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TO-DO List</title>
+    <link rel="stylesheet" href="third.css" />
+  </head>
+  <body>
+    <div class="outline">
+      <div class="content">
+        <h1>TO-DO LIST</h1>
+        <div class="first">
+          <button class="all" onclick="showAllTodos()">전체</button>
+          <button class="complete" onclick="showCompletedTodos()">완료</button>
+          <button class="uncomplete" onclick="showUncompletedTodos()">
+            미완료
+          </button>
+        </div>
+
+        <div class="second">
+          <input type="text" id="todoInput" placeholder="할 일을 입력하세요" />
+          <div id="priorityButtons">
+            <button class="priorityBtn" value="낮음">낮음</button>
+            <button class="priorityBtn" value="보통">보통</button>
+            <button class="priorityBtn" value="높음">높음</button>
+            <button class="priorityBtn" value="아주 높음">아주 높음</button>
+          </div>
+          <button onclick="addTodo()">추가</button>
+        </div>
+        <hr />
+        <div class="third" id="todoList"></div>
+      </div>
+    </div>
+
+    <script>
+      const priorityButtons = document.querySelectorAll(".priorityBtn");
+      priorityButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          priorityButtons.forEach((btn) => {
+            btn.classList.remove("selected");
+          });
+          this.classList.add("selected");
+        });
+      });
+
+      function addTodo() {
+        const todoInput = document.getElementById("todoInput");
+        const selectedPriority = document.querySelector(
+          ".priorityBtn.selected"
+        );
+
+        if (todoInput.value === "") {
+          alert("할 일을 입력하세요.");
+          return;
+        }
+
+        if (!selectedPriority) {
+          alert("우선순위를 선택하세요.");
+          return;
+        }
+
+        const priority = selectedPriority.textContent;
+
+        const todoItem = document.createElement("div");
+        todoItem.classList.add("todo");
+        todoItem.classList.add("uncompleted");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+
+        checkbox.addEventListener("change", function () {
+          if (this.checked) {
+            todoItem.classList.add("completed");
+            todoItem.classList.remove("uncompleted");
+          } else {
+            todoItem.classList.add("uncompleted");
+            todoItem.classList.remove("completed");
+          }
+          updateTodoItemDecoration(todoItem);
+        });
+
+        const todoText = document.createElement("span");
+        todoText.textContent = `${todoInput.value} (우선순위: ${priority})`;
+
+        const editButton = document.createElement("button");
+        editButton.textContent = "수정";
+        editButton.addEventListener("click", function () {
+          const newText = prompt("새로운 내용을 입력하세요.");
+          if (newText !== null) {
+            todoText.textContent = `${newText} (우선순위: ${priority})`;
+          }
+        });
+
+        todoItem.appendChild(checkbox);
+        todoItem.appendChild(todoText);
+        todoItem.appendChild(editButton);
+
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "제거";
+        removeButton.addEventListener("click", function () {
+          todoItem.remove();
+        });
+        todoItem.appendChild(removeButton);
+
+        document.getElementById("todoList").appendChild(todoItem);
+
+        todoInput.value = "";
+        priorityButtons.forEach((btn) => {
+          btn.classList.remove("selected");
+        });
+      }
+
+      function updateTodoItemDecoration(todoItem) {
+        const todoText = todoItem.querySelector("span");
+        if (todoItem.classList.contains("completed")) {
+          todoText.style.textDecoration = "line-through";
+        } else {
+          todoText.style.textDecoration = "none";
+        }
+      }
+
+      function showAllTodos() {
+        const todos = document.querySelectorAll(".todo");
+        todos.forEach((todo) => {
+          todo.style.display = "";
+        });
+      }
+
+      function showCompletedTodos() {
+        const todos = document.querySelectorAll(".todo");
+        todos.forEach((todo) => {
+          todo.style.display = todo.classList.contains("completed")
+            ? ""
+            : "none";
+        });
+      }
+
+      function showUncompletedTodos() {
+        const todos = document.querySelectorAll(".todo");
+        todos.forEach((todo) => {
+          todo.style.display = todo.classList.contains("uncompleted")
+            ? ""
+            : "none";
+        });
+      }
+    </script>
+  </body>
+</html>

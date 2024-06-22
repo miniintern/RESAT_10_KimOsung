@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이미지 슬라이드</title>
+    <style>
+      .outline {
+        width: 100%;
+        overflow: hidden;
+        position: relative; /* 버튼 위치 조정을 위해 부모 요소를 상대 위치로 설정합니다. */
+      }
+      .slide {
+        width: 100%;
+        display: none; /* 슬라이드 숨김 */
+        position: absolute; /* 슬라이드가 겹치도록 설정합니다. */
+        top: 0;
+        left: 0;
+      }
+      .slide img {
+        width: 100%;
+        height: auto;
+      }
+      .prev_button,
+      .next_button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: transparent;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+      }
+      .prev_button {
+        left: 10px;
+      }
+      .next_button {
+        right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="outline">
+      <div class="slide">
+        <img src="./image/imageSlider/bbangbao.jpg" alt="" />
+      </div>
+
+      <div class="slide">
+        <img src="./image/imageSlider/okji.jpg" alt="" />
+      </div>
+
+      <div class="slide">
+        <img src="./image/imageSlider/pubao.jpg" alt="" />
+      </div>
+
+      <button class="prev_button" onclick="prevSlide()">이전</button>
+      <button class="next_button" onclick="nextSlide()">다음</button>
+    </div>
+
+    <script>
+      let currentSlide = 0;
+      const slides = document.querySelectorAll(".slide");
+      const slideNumber = slides.length;
+
+      function showSlide(n) {
+        slides.forEach((slide) => (slide.style.display = "none"));
+        slides[n].style.display = "block";
+      }
+
+      function nextSlide() {
+        currentSlide = (currentSlide + 1) % slideNumber;
+        showSlide(currentSlide);
+      }
+
+      function prevSlide() {
+        currentSlide = (currentSlide - 1 + slideNumber) % slideNumber;
+        showSlide(currentSlide);
+      }
+
+      // 초기화
+      showSlide(currentSlide);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>timer!!!</title>
+    <link rel="stylesheet" href="second.css" />
+  </head>
+  <body>
+    <div class="outline">
+      <div class="timer">0.0</div>
+      <div>
+        <button class="start" onclick="startTimer()">Start</button>
+        <button class="stop" onclick="stopTimer()">Stop</button>
+        <button class="reset" onclick="resetTimer()">Reset</button>
+      </div>
+    </div>
+
+    <script>
+      let timer;
+      let startTime;
+      let elapsedTime = 0;
+      let timerInterval;
+      const timeDisplay = document.querySelector(".timer");
+      const startButton = document.querySelector(".start");
+      const stopButton = document.querySelector(".stop");
+      const resetButton = document.querySelector(".reset");
+
+      function startTimer() {
+        startTime = Date.now() - elapsedTime;
+        timerInterval = setInterval(updateTime, 10);
+        startButton.disabled = true;
+        stopButton.disabled = false;
+        resetButton.disabled = false;
+      }
+
+      function stopTimer() {
+        clearInterval(timerInterval);
+        startButton.disabled = false;
+        stopButton.disabled = true;
+      }
+
+      function resetTimer() {
+        clearInterval(timerInterval);
+        elapsedTime = 0;
+        displayTime(0);
+        startButton.disabled = false;
+        stopButton.disabled = true;
+      }
+
+      function updateTime() {
+        const currentTime = Date.now();
+        elapsedTime = currentTime - startTime;
+        displayTime(elapsedTime);
+      }
+
+      function displayTime(milliseconds) {
+        const minutes = Math.floor(milliseconds / (1000 * 60));
+        const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
+        const millisecondsLeft = Math.floor((milliseconds % 1000) / 10);
+        timeDisplay.textContent =
+          pad(minutes) + ":" + pad(seconds) + "." + pad(millisecondsLeft);
+      }
+
+      function pad(num) {
+        return num < 10 ? "0" + num : num;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+body {
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+.outline {
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: 300px;
+  padding: 10px;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.timer {
+  border: 2px solid black;
+  width: 350px;
+  height: 150px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+}
+
+.start,
+.stop,
+.reset {
+  width: 100px;
+  height: 40px;
+  margin-right: 5px;
+  line-height: 40px;
+  display: inline-block;
+  border: 2px solid;
+  border-radius: 5px;
+}
